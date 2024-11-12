@@ -1,17 +1,4 @@
 class MySuperClass:
-    def __init__(self, surname, name, mark):
-        # в середині конструктора створюються атрибути
-        self.surname = surname
-        self.name = name
-        self.mark = mark
-
-def function_in_module():
-    pass
-
-
-# my_class.py
-
-class MySuperClass:
     """Тестовий клас, зараз реалізуємо опис студента
     
     ---
@@ -20,6 +7,14 @@ class MySuperClass:
         Прізвище студента
     
     """
+    var_lover_case = "Це проста класова змінна"
+    COLLEGE_NAME = "Це подібне до константи в клосі, але ми можемо її перезаписати"
+    _protected_var = 1
+    __private_var = 2
+
+    total_students = 0
+    total_marks = 0
+
     def __init__(self, surname:str, name, mark:int, group=None):
         """
         Ініціалізуємо обєкт
@@ -32,7 +27,20 @@ class MySuperClass:
         self.group = group
         self._age = None # (protected) захищений атрибут
         self._scholarship = 0
-    
+
+        self.var_lover_case = "Перазаписали класові змінну"
+        MySuperClass.total_students += 1
+        MySuperClass.total_marks += mark
+
+
+    def __del__(self):
+        print("Відрахували студента")
+        MySuperClass.total_students -= 1
+
+    @property
+    def college_raiting(self):
+        return MySuperClass.total_marks / MySuperClass.total_students
+
     @property
     def name(self):
         """Ця властивість є закритою, її можна читати але не можна змінювати
@@ -70,13 +78,16 @@ class MySuperClass:
 
     def calculate_scholarship_after_session(self, raiting: int):
         if raiting == 5:
-            self._scholarship = "2200 грн"
+            self._scholarship = "1800 грн"
             return "Присвоєно підвищену стипундію"
         if raiting == 4:
-            self._scholarship = "1510 грн"
+            self._scholarship = "1400 грн"
             return "Присвоєно звичайну стипундію"
         self._scholarship = 0
         return "Рейтинг занизький для стипендії"
+    
+    def panishment(self):
+        return "Ми прийшли додому і мама нас насварила за погані оцінки"
 
 def function_in_module():
     """Це просто функція (згідно загальної термінології)
@@ -127,6 +138,45 @@ class BMWShowroom:
         return "\n".join(str(car) for car in self.cars)
 
 
-def function_in_module():
-    """Це просто функція (згідно загальної термінології)"""
-    pass
+
+
+
+class MySuperClass:
+    total_students = 0  # Атрибут класу для підрахунку кількості студентів
+    total_marks = 0  # Атрибут класу для підрахунку суми балів
+    college_raiting = "Високий"  # Загальний рейтинг коледжу
+    var_lover_case = "Змінна класу"  # Тепер це атрибут класу
+    
+    def __init__(self, surname: str, name: str, mark: int, group=None):
+        """
+        Ініціалізуємо об'єкт, підраховуємо студентів та додаємо їхні бали.
+        """
+        self.__surname = surname
+        self.__name = name
+        self.mark = mark  # Оцінка студента
+        self.group = group  # Група студента
+        
+        # Підвищуємо кількість студентів
+        MySuperClass.total_students += 1
+        
+        # Додаємо оцінку до загальної суми балів
+        MySuperClass.total_marks += self.mark
+
+    @property
+    def name(self):
+        return self.__name
+
+    @property
+    def surname(self):
+        return self.__surname
+
+    @classmethod
+    def get_avg_mark(cls):
+        """Метод класу для розрахунку середнього балу."""
+        if cls.total_students == 0:
+            return 0
+        return cls.total_marks / cls.total_students
+
+    def __repr__(self):
+        return f"Студент {self.surname} {self.name}, Оцінка: {self.mark}"
+
