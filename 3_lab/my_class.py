@@ -88,6 +88,16 @@ class MySuperClass:
     
     def panishment(self):
         return "Ми прийшли додому і мама нас насварила за погані оцінки"
+    
+    @staticmethod
+    def hobbi(h=None):
+        """в таких методах нема вказівника на обєкт
+        """
+        if h:
+            print(f"В мене зявилось хобі {h}")
+        else:
+            print("На жаль в мене немає хобі")
+
 
 def function_in_module():
     """Це просто функція (згідно загальної термінології)
@@ -136,4 +146,39 @@ class BMWShowroom:
         if not self.cars:
             return "Автосалон порожній."
         return "\n".join(str(car) for car in self.cars)
+    
+class Person:
+    """Клас, що описує особу: ім'я, вік, стать і хобі.
+    
+    Атрибути:
+    - name : str : ім'я особи
+    - age : int : вік особи
+    - gender : str : стать особи (чоловік/жінка)
+    """
+    
+    total_persons = 0  # Загальна кількість осіб
+    
+    def __init__(self, name: str, age: int, gender: str):
+        """Ініціалізуємо атрибути класу: ім'я, вік, стать"""
+        self.name = name
+        self.age = age
+        self.gender = gender
+        Person.total_persons += 1  # Збільшуємо загальну кількість осіб
+
+    def greet(self):
+        """Метод для вітання"""
+        return f"Привіт! Мене звати {self.name}, мені {self.age} років."
+
+    def punishment(self):
+        """Метод для опису покарання"""
+        return f"{self.name} отримав(ла) покарання за погану поведінку."
+
+    @staticmethod
+    def hobby(h=None):
+        """Статичний метод для хобі. Якщо передано хобі - виводимо його, якщо ні - повідомлення про відсутність хобі"""
+        if h:
+            print(f"{h} стало моїм новим хобі!")
+        else:
+            print("На жаль, у мене немає хобі.")
+
 
